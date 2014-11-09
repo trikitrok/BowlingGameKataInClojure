@@ -3,18 +3,29 @@
 (defn points [rolls]
   (reduce + rolls))
 
-(defn first-frame [rolls]
-  (take 2 rolls))
+(def ten-points-in
+  (comp (partial = 10) points (partial take)))
 
-(defn spare? [rolls]
-  (= 10 (points (first-frame rolls))))
+(def strike?
+  (partial ten-points-in 1))
+
+(def spare?
+  (partial ten-points-in 2))
+
+(defn first-frame [rolls]
+  (if (strike? rolls)
+    (take 1 rolls)
+    (take 2 rolls)))
 
 (defn bonus-rolls [rolls]
-  (cond (spare? rolls) (drop 2 (take 3 rolls))
+  (cond (strike? rolls) (drop 1 (take 3 rolls))
+        (spare? rolls) (drop 2 (take 3 rolls))
         :else (take 0 rolls)))
 
 (defn rest-frames [rolls]
-  (drop 2 rolls))
+  (if (strike? rolls)
+    (drop 1 rolls)
+    (drop 2 rolls)))
 
 (defn score-first-frame [rolls]
   (+ (points (first-frame rolls))

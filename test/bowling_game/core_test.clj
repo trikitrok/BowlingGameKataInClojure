@@ -5,6 +5,7 @@
 (def a-gutter-game (repeat 20 0))
 (def a-no-spares-no-strikes-game (concat [1 6 4 5 3 1] (repeat 14 0)))
 (def a-game-with-spares (concat [4 6 4 5 3 1] (repeat 14 0)))
+(def a-game-with-strikes (concat [10 4 5 3 1] (repeat 14 0)))
 
 (facts "about bowling-game"
        (fact "it scores a game with no spins down"
@@ -14,4 +15,7 @@
              (score a-no-spares-no-strikes-game) => 20)
        
        (fact "it scores a game with a spare"
-             (score a-game-with-spares) => 27))
+             (score a-game-with-spares) => 27)
+       
+       (fact "it scores a game with a strike"
+             (score a-game-with-strikes) => 32))
