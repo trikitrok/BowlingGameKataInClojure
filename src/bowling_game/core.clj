@@ -3,14 +3,14 @@
 (defn points [rolls]
   (reduce + rolls))
 
-(def ten-points-in
-  (comp (partial = 10) points (partial take)))
+(def ten-points? 
+  (comp (partial = 10) points))
 
-(def strike?
-  (partial ten-points-in 1))
+(def strike? 
+  (comp ten-points? (partial take 1)))
 
 (def spare?
-  (partial ten-points-in 2))
+  (comp ten-points? (partial take 2)))
 
 (defn first-frame [rolls]
   (if (strike? rolls)
