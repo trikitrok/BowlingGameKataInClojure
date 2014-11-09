@@ -31,10 +31,10 @@
     (drop 2 rolls)))
 
 (defn score-first-frame [rolls n]
-  (if (<= n 10)
+  (if (> n 10)
+    0
     (+ (points (first-frame rolls))
-       (points (bonus-rolls rolls)))
-    (points (bonus-rolls rolls))))
+       (points (bonus-rolls rolls)))))
 
 (defn score-frames [rolls n]
   (if (empty? rolls)

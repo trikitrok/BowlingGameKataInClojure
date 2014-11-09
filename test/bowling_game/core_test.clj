@@ -8,6 +8,7 @@
 (def a-game-with-strikes (concat [10 4 5 3 1] (repeat 14 0)))
 (def a-game-with-spare-in-10th-frame (concat (repeat 14 0) [3 1 4 2 4 6] [2]))
 (def a-game-with-strike-in-10th-frame (concat (repeat 14 0) [3 1 4 2 10] [2 3]))
+(def a-perfect-game (repeat 12 10))
 
 (facts "about bowling-game"
        (fact "it scores a game with no spins down"
@@ -26,4 +27,7 @@
              (score a-game-with-spare-in-10th-frame) => 22)
        
        (fact "it scores a game with a strike in the 10th frame"
-             (score a-game-with-strike-in-10th-frame) => 25))
+             (score a-game-with-strike-in-10th-frame) => 25)
+       
+       (fact "it scores a perfect game"
+             (score a-perfect-game) => 300))
