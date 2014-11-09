@@ -17,15 +17,18 @@
     (take 1 rolls)
     (take 2 rolls)))
 
+(defn take-next [n rolls]
+  (drop (- 3 n) (take 3 rolls)))
+
 (defn bonus-rolls [rolls]
-  (cond (strike? rolls) (drop 1 (take 3 rolls))
-        (spare? rolls) (drop 2 (take 3 rolls))
-        :else (take 0 rolls)))
+  (cond (strike? rolls) (take-next 2 rolls)
+        (spare? rolls) (take-next 1 rolls)
+        :else (empty rolls)))
 
 (defn rest-frames [rolls]
   (if (strike? rolls)
     (drop 1 rolls)
-    (drop 2 rolls)))
+  (drop 2 rolls)))
 
 (defn score-first-frame [rolls]
   (+ (points (first-frame rolls))
