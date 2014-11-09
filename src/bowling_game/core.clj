@@ -28,14 +28,19 @@
 (defn rest-frames [rolls]
   (if (strike? rolls)
     (drop 1 rolls)
-  (drop 2 rolls)))
+    (drop 2 rolls)))
 
-(defn score-first-frame [rolls]
-  (+ (points (first-frame rolls))
-     (points (bonus-rolls rolls))))
+(defn score-first-frame [rolls n]
+  (if (<= n 10)
+    (+ (points (first-frame rolls))
+       (points (bonus-rolls rolls)))
+    (points (bonus-rolls rolls))))
 
-(defn score [rolls]
+(defn score-frames [rolls n]
   (if (empty? rolls)
     0
-    (+ (score-first-frame rolls)
-       (score (rest-frames rolls)))))
+    (+ (score-first-frame rolls n)
+       (score-frames (rest-frames rolls) (inc n)))))
+
+(defn score [rolls]
+  (score-frames rolls 1))
