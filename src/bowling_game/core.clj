@@ -12,23 +12,24 @@
 (def ^:private spare?
   (comp ten-points? (partial take 2)))
 
-(defn- first-frame [rolls]
+(defn- get-rolls-using [get-fn rolls]
   (if (strike? rolls)
-    (take 1 rolls)
-    (take 2 rolls)))
+    (get-fn 1 rolls)
+    (get-fn 2 rolls)))
 
-(defn- take-next [n rolls]
-  (drop (- 3 n) (take 3 rolls)))
-
-(defn- bonus-rolls [rolls]
-  (cond (strike? rolls) (take-next 2 rolls)
-        (spare? rolls) (take-next 1 rolls)
-        :else (empty rolls)))
+(defn- first-frame [rolls]
+  (get-rolls-using take rolls))
 
 (defn- rest-frames [rolls]
-  (if (strike? rolls)
-    (drop 1 rolls)
-    (drop 2 rolls)))
+  (get-rolls-using drop rolls))
+
+(defn- take-next [n rolls]
+  (drop n (take 3 rolls)))
+
+(defn- bonus-rolls [rolls]
+  (cond (strike? rolls) (take-next 1 rolls)
+        (spare? rolls) (take-next 2 rolls)
+        :else (empty rolls)))
 
 (defn- score-current-frame [rolls n]
   (if (> n 10)
